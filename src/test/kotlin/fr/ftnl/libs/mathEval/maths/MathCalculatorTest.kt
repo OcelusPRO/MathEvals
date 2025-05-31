@@ -60,18 +60,31 @@ class MathCalculatorTest {
         assertEquals(8.0, result2, delta)
         assertEquals(256.0, result3, delta)
     }
-
+    
     @Test
     fun `calculate should correctly evaluate expressions with variables`() {
         // Given
         val expression = "x^2 + 2*x + 1"
         val variables = mapOf("x" to 3.0)
-
+        
         // When
         val result = calculator.calculate(expression, variables)
-
+        
         // Then
         assertEquals(16.0, result, delta) // 3^2 + 2*3 + 1 = 9 + 6 + 1 = 16
+    }
+    
+    @Test
+    fun `calculate should correctly evaluate expressions with multiples variables`() {
+        // Given
+        val expression = "x^2 + 2*y + 1"
+        val variables = mapOf("x" to 3.0, "y" to 4.0)
+        
+        // When
+        val result = calculator.calculate(expression, variables)
+        
+        // Then
+        assertEquals(18.0, result, delta) // 3^2 + 2*3 + 1 = 9 + 8 + 1 = 18
     }
 
     @Test
