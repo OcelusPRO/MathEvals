@@ -1,10 +1,9 @@
 package fr.ftnl.libs.mathEval.maths
 
-import fr.ftnl.libs.mathEval.tokenizer.Token
 import fr.ftnl.libs.mathEval.tokenizer.TokenType
 import fr.ftnl.libs.mathEval.tokenizer.TokenizationException
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
@@ -150,19 +149,30 @@ class MathExpressionValidatorTest {
         assertEquals(TokenType.NUMBER, tokens[3].type)
         assertEquals("3", tokens[3].value)
     }
-
+    
     @Test
     fun `validateAndTokenize should throw exception for implicit multiplication after parentheses`() {
         // Given
         val expression = "(1+2)3"
-
+        
         // When/Then
         val exception = assertThrows<TokenizationException> {
             MathExpressionValidator.validateAndTokenize(expression)
         }
-
+        
         // Then
         assertContains(exception.message ?: "", "Tokenization exception at position")
         assertContains(exception.message ?: "", "Implicit multiplication not allowed after ')'")
+    }
+    
+    @Test
+    fun `validateAndTokenize should does not throw exception for implicit multiplication before parentheses`() {
+        // Given
+        val expression = "3(1+2)"
+        
+        // When/Then
+        assertDoesNotThrow {
+            MathExpressionValidator.validateAndTokenize(expression)
+        }
     }
 }
