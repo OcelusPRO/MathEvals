@@ -4,6 +4,7 @@ import fr.ftnl.libs.mathEval.tokenizer.TokenizationException
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.assertThrows
+import kotlin.test.assertEquals
 
 class MathCalculatorTest {
 
@@ -201,4 +202,33 @@ class MathCalculatorTest {
         }
         assertTrue(exception.message!!.contains("Undefined variable"))
     }
+    
+    
+    
+    @Test
+    fun `calculate should correctly evaluate expressions with implicit multiplication`() {
+        // Given
+        val expression1 = "5(2+3)"      // 5 * (2+3) = 5 * 5 = 25
+        val expression2 = "2x + 1"      // 2 * x + 1 = 2 * 3 + 1 = 7 (with x = 3)
+        val expression3 = "(2+3)(4+5)"  // (2+3) * (4+5) = 5 * 9 = 45
+        val expression4 = "2pi"         // 2 * pi ≈ 6.28
+        val expression5 = "(x+1)2"      // (x+1) * 2 = (3+1) * 2 = 8 (with x = 3)
+        
+        val variables = mapOf("x" to 3.0)
+        
+        // When
+        val result1 = calculator.calculate(expression1)
+        val result2 = calculator.calculate(expression2, variables)
+        val result3 = calculator.calculate(expression3)
+        val result4 = calculator.calculate(expression4)
+        val result5 = calculator.calculate(expression5, variables)
+        
+        // Then
+        assertEquals(25.0, result1, delta)
+        assertEquals(7.0, result2, delta)
+        assertEquals(45.0, result3, delta)
+        assertEquals(2.0 * Math.PI, result4, delta)
+        assertEquals(8.0, result5, delta)
+    }
+    
 }
