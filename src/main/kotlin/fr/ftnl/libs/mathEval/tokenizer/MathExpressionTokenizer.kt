@@ -35,23 +35,24 @@ class MathExpressionTokenizer {
     
     @Throws(TokenizationException::class)
     fun tokenize(input: String): List<Token> {
-        val cleanInput = input.replace(Regex("""\s+"""), "") // Supprimer espaces
-        val tokens = mutableListOf<Token>()
+        val cleanInput = input.replace(Regex("""\s+"""), "") // Remove spaces
+        val initialTokens = mutableListOf<Token>()
         var position = 0
         
         while (position < cleanInput.length) {
             val token = findLongestMatch(cleanInput, position)
                 ?: throw TokenizationException(
-                    "Caractère invalide '${cleanInput[position]}'",
+                    "Invalid character '${cleanInput[position]}'",
                     position,
                     cleanInput[position]
                 )
             
-            tokens.add(token)
+            initialTokens.add(token)
             position += token.value.length
         }
         
-        return tokens
+        // Post-process tokens to handle implicit multiplication
+        return initialTokens
     }
     
     private fun findLongestMatch(input: String, startPosition: Int): Token? {

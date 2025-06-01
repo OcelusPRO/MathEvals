@@ -139,15 +139,6 @@ class MathExpressionValidator {
                         }
                     }
 
-                    TokenType.RPAREN -> {
-                        // Closing parenthesis cannot be followed directly by a number or variable
-                        if (next?.type in listOf(TokenType.NUMBER, TokenType.VARIABLE, TokenType.CONSTANT, TokenType.LPAREN)) {
-                            throw TokenizationException(
-                                "Implicit multiplication not allowed after ')'", current.position, null
-                            )
-                        }
-                    }
-
                     else -> { /* Other types are OK */ }
                 }
             }

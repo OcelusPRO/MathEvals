@@ -49,10 +49,65 @@ class MathCalculator {
         // Step 2: Process tokens to handle custom functions
         val processedTokens = processCustomFunctions(tokens)
 
-        // Step 3: Secure evaluation
-        return evaluator.evaluateWithSafeguards(processedTokens, variables)
+        // Step 3: Insert implicit multiplication operators
+        val processedTokensWithImplicitMultiplication = insertImplicitMultiplicationOperators(processedTokens)
+        
+        // Step 4: Secure evaluation
+        return evaluator.evaluateWithSafeguards(processedTokensWithImplicitMultiplication, variables)
     }
-
+    
+    fun insertImplicitMultiplicationOperators(tokens: List<Token>): List<Token> {
+        val result = mutableListOf<Token>()
+        
+        for (i in tokens.indices) {
+            val current = tokens[i]
+            result.add(current)
+            
+            // Skip if this is the last token
+            if (i == tokens.lastIndex) continue
+            
+            val next = tokens[i + 1]
+            
+            // Cases where implicit multiplication should be inserted:
+            val needsMultiplication = when {
+                // Case 1: Number followed by opening parenthesis - e.g., "5(x+2)"
+                current.type == TokenType.NUMBER && next.type == TokenType.LPAREN -> true
+                
+                // Case 2: Number followed by variable or constant - e.g., "2x" or "5pi"
+                current.type == TokenType.NUMBER &&
+                        (next.type == TokenType.VARIABLE || next.type == TokenType.CONSTANT) -> true
+                
+                // Case 3: Closing parenthesis followed by opening parenthesis - e.g., "(x+1)(x-1)"
+                current.type == TokenType.RPAREN && next.type == TokenType.LPAREN -> true
+                
+                // Case 4: Closing parenthesis followed by number, variable or constant - e.g., "(x+1)2" or "(x+1)y"
+                current.type == TokenType.RPAREN &&
+                        (next.type == TokenType.NUMBER || next.type == TokenType.VARIABLE ||
+                                next.type == TokenType.CONSTANT) -> true
+                
+                
+                // TODO : disabled for custom functions
+                // Case 5: Variable or constant followed by opening parenthesis - e.g., "x(y+1)"
+                (current.type == TokenType.VARIABLE || current.type == TokenType.CONSTANT) &&
+                        next.type == TokenType.LPAREN -> true
+                
+                else -> false
+            }
+            
+            if (needsMultiplication) {
+                // Insert a multiplication operator between the tokens
+                result.add(Token(
+                    type = TokenType.OPERATOR,
+                    value = "*",
+                    position = current.position + current.value.length
+                ))
+            }
+        }
+        
+        return result
+    }
+    
+    
     /**
      * Processes tokens to convert variables to functions if they are registered as custom functions.
      * This allows custom functions to be recognized by the tokenizer.
@@ -112,10 +167,10 @@ class MathCalculator {
     fun hasFunction(name: String): Boolean {
         return evaluator.hasFunction(name)
     }
-
+    
     /**
      * Utility method to display the tokens of an expression for debugging purposes.
-     * 
+     *
      * @param expression The mathematical expression to tokenize.
      * @return A list of tokens representing the expression.
      * @throws TokenizationException If the expression contains syntax errors.
@@ -123,5 +178,24 @@ class MathCalculator {
     @Throws(TokenizationException::class)
     fun showTokens(expression: String): List<Token> {
         return MathExpressionValidator.validateAndTokenize(expression)
+    }
+    
+    /**
+     * Utility method to display the tokens of an expression for debugging purposes.
+     *
+     * @param expression The mathematical expression to tokenize.
+     * @return A list of tokens representing the expression.
+     * @throws TokenizationException If the expression contains syntax errors.
+     */
+    @Throws(TokenizationException::class)
+    fun showImpliciteTokens(expression: String): List<Token> {
+        // Step 1: Tokenization and validation
+        val tokens = MathExpressionValidator.validateAndTokenize(expression)
+        
+        // Step 2: Process tokens to handle custom functions
+        val processedTokens = processCustomFunctions(tokens)
+        
+        // Step 3: Insert implicit multiplication operators
+        return insertImplicitMultiplicationOperators(processedTokens)
     }
 }
