@@ -86,7 +86,6 @@ class MathCalculator {
                                 next.type == TokenType.CONSTANT) -> true
                 
                 
-                // TODO : disabled for custom functions
                 // Case 5: Variable or constant followed by opening parenthesis - e.g., "x(y+1)"
                 (current.type == TokenType.VARIABLE || current.type == TokenType.CONSTANT) &&
                         next.type == TokenType.LPAREN -> true
