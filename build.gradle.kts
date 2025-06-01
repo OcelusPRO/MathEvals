@@ -49,7 +49,7 @@ publishing {
             pom {
                 name.set("MathEvals")
                 packaging = "jar"
-                
+
                 description.set("A Kotlin library for evaluating mathematical expressions with safety features.")
                 url.set("https://github.com/ocelus_ftnl/MathEvals")
                 licenses {
@@ -66,14 +66,14 @@ publishing {
                     }
                 }
                 scm {
-                    connection.set("git@github.com:Draluy/SimpleSpreadsheet.git")
-                    developerConnection.set("git@github.com:Draluy/SimpleSpreadsheet.git")
-                    url.set("https://github.com/Draluy/SimpleSpreadsheet")
+                    connection.set("git@github.com:ocelus_ftnl/MathEvals.git")
+                    developerConnection.set("git@github.com:ocelus_ftnl/MathEvals.git")
+                    url.set("https://github.com/ocelus_ftnl/MathEvals")
                 }
             }
         }
     }
-    
+
     repositories {
         maven {
             name = "myRepo"
@@ -82,12 +82,12 @@ publishing {
             url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
             val ossrhUsername: String by project
             val ossrhPassword: String by project
-            
+
             credentials {
                 username = ossrhUsername
                 password = ossrhPassword
             }
         }
     }
-    
+
 }

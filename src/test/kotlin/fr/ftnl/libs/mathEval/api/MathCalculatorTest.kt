@@ -1,25 +1,24 @@
-package fr.ftnl.libs.mathEval.maths
+package fr.ftnl.libs.mathEval.api
 
-import fr.ftnl.libs.mathEval.api.MathCalculator
 import fr.ftnl.libs.mathEval.api.exceptions.EvaluationException
 import fr.ftnl.libs.mathEval.api.exceptions.SyntaxException
 import fr.ftnl.libs.mathEval.core.tokenizer.TokenizationException
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.assertThrows
-import kotlin.test.assertContains
 import kotlin.test.assertEquals
 
 class MathCalculatorTest {
 
     private val calculator = MathCalculator()
-    private val delta = 1e-10 // Tolérance pour les comparaisons de nombres à virgule flottante
+    private val delta = 1e-10 // Tolerance for floating-point comparisons
 
     @Test
     fun `calculate should correctly evaluate simple expressions`() {
         // Given
         val expression1 = "2 + 3 * 4"
         val expression2 = "2 * (3 + 4)"
+
         // When
         val result1 = calculator.calculate(expression1)
         val result2 = calculator.calculate(expression2)
@@ -88,7 +87,7 @@ class MathCalculatorTest {
         val result = calculator.calculate(expression, variables)
         
         // Then
-        assertEquals(18.0, result, delta) // 3^2 + 2*3 + 1 = 9 + 8 + 1 = 18
+        assertEquals(18.0, result, delta) // 3^2 + 2*4 + 1 = 9 + 8 + 1 = 18
     }
 
     @Test
@@ -128,7 +127,7 @@ class MathCalculatorTest {
         }
 
         // Then
-        assertContains(exception.message ?: "", "Argument out of domain for log")
+        assertTrue(exception.message!!.contains("Argument out of domain for log"))
     }
 
     @Test
@@ -206,8 +205,6 @@ class MathCalculatorTest {
         assertTrue(exception.message!!.contains("Undefined variable"))
     }
     
-    
-    
     @Test
     fun `calculate should correctly evaluate expressions with implicit multiplication`() {
         // Given
@@ -233,5 +230,4 @@ class MathCalculatorTest {
         assertEquals(2.0 * Math.PI, result4, delta)
         assertEquals(8.0, result5, delta)
     }
-    
 }

@@ -1,9 +1,9 @@
-package fr.ftnl.libs.mathEval.maths
+package fr.ftnl.libs.mathEval.core.evaluation
 
-import fr.ftnl.libs.mathEval.core.evaluation.MathExpressionEvaluator
 import fr.ftnl.libs.mathEval.core.tokenizer.Token
 import fr.ftnl.libs.mathEval.core.tokenizer.TokenType
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
@@ -11,9 +11,9 @@ import kotlin.test.assertEquals
 class MathExpressionEvaluatorTest {
 
     private val evaluator = MathExpressionEvaluator()
-    private val delta = 1e-10 // Tolérance pour les comparaisons de nombres à virgule flottante
+    private val delta = 1e-10 // Tolerance for floating-point comparisons
     
-    // Fonction utilitaire pour créer des tokens pour les tests
+    // Utility function to create tokens for tests
     private fun createTokens(vararg tokenData: Pair<TokenType, String>): List<Token> {
         return tokenData.mapIndexed { index, (type, value) ->
             Token(type, value, index)

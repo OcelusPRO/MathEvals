@@ -1,6 +1,5 @@
-package fr.ftnl.libs.mathEval.maths
+package fr.ftnl.libs.mathEval.core.evaluation
 
-import fr.ftnl.libs.mathEval.core.evaluation.SafeMathEvaluator
 import fr.ftnl.libs.mathEval.core.tokenizer.Token
 import fr.ftnl.libs.mathEval.core.tokenizer.TokenType
 import org.junit.jupiter.api.Test
@@ -162,7 +161,7 @@ class SafeMathEvaluatorTest {
         )
 
         // Register a custom function that doubles its input
-        evaluator.registerFunction("double") { x -> x * 2 }
+        evaluator.registerFunction("double", { x -> x * 2 })
 
         // When
         val result = evaluator.evaluateWithSafeguards(tokens)

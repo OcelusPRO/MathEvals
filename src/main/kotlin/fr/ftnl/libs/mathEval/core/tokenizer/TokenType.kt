@@ -1,7 +1,10 @@
-package fr.ftnl.libs.mathEval.tokenizer
+package fr.ftnl.libs.mathEval.core.tokenizer
 
 /**
- * Types de tokens dans les expressions mathématiques
+ * Token types in mathematical expressions.
+ * 
+ * This enum defines all possible types of tokens that can be
+ * extracted from a mathematical expression.
  */
 enum class TokenType {
     NUMBER,           // 123, 3.14, 2.5e-3

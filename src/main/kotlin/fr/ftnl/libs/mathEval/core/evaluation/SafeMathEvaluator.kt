@@ -1,7 +1,7 @@
-package fr.ftnl.libs.mathEval.maths
+package fr.ftnl.libs.mathEval.core.evaluation
 
-import fr.ftnl.libs.mathEval.tokenizer.Token
-import fr.ftnl.libs.mathEval.tokenizer.TokenType
+import fr.ftnl.libs.mathEval.core.tokenizer.Token
+import fr.ftnl.libs.mathEval.core.tokenizer.TokenType
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit

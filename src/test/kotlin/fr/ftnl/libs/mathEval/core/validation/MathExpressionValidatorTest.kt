@@ -1,10 +1,9 @@
-package fr.ftnl.libs.mathEval.maths
+package fr.ftnl.libs.mathEval.core.validation
 
 import fr.ftnl.libs.mathEval.api.MathCalculator
 import fr.ftnl.libs.mathEval.api.exceptions.SyntaxException
 import fr.ftnl.libs.mathEval.core.tokenizer.TokenType
 import fr.ftnl.libs.mathEval.core.tokenizer.TokenizationException
-import fr.ftnl.libs.mathEval.core.validation.MathExpressionValidator
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
@@ -184,5 +183,4 @@ class MathExpressionValidatorTest {
         val result = MathCalculator().calculate(expression)
         assertEquals(9.0, result, 0.001) // (1 + 2) * 3 = 3 * 3 = 9
     }
-    
 }

@@ -1,5 +1,9 @@
 package fr.ftnl.libs.mathEval.tokenizer
 
+import fr.ftnl.libs.mathEval.api.exceptions.SyntaxException
+import fr.ftnl.libs.mathEval.core.tokenizer.MathExpressionTokenizer
+import fr.ftnl.libs.mathEval.core.tokenizer.TokenType
+import fr.ftnl.libs.mathEval.core.tokenizer.TokenizationException
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.assertThrows
@@ -154,7 +158,7 @@ class MathExpressionTokenizerTest {
         val expression = "3 @ 4"
 
         // When/Then
-        val exception = assertThrows<TokenizationException> {
+        val exception = assertThrows<SyntaxException> {
             tokenizer.tokenize(expression)
         }
 
