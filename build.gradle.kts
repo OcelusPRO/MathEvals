@@ -60,9 +60,9 @@ publishing {
                 }
                 developers {
                     developer {
-                        id.set("draluy")
-                        name.set("David Raluy")
-                        email.set("david@raluy.fr")
+                        id.set("ocelus_ftnl")
+                        name.set("Ocelus")
+                        email.set("contact@ftnl.fr")
                     }
                 }
                 scm {
