@@ -151,28 +151,35 @@ class MathExpressionValidatorTest {
     }
     
     @Test
-    fun `validateAndTokenize should throw exception for implicit multiplication after parentheses`() {
-        // Given
+    fun `validateAndTokenize should allow implicit multiplication after parentheses`() { // Given
         val expression = "(1+2)3"
         
-        // When/Then
-        val exception = assertThrows<TokenizationException> {
-            MathExpressionValidator.validateAndTokenize(expression)
-        }
+        val tokens = MathCalculator().showImpliciteTokens(expression)
         
-        // Then
-        assertContains(exception.message ?: "", "Tokenization exception at position")
-        assertContains(exception.message ?: "", "Implicit multiplication not allowed after ')'")
-    }
-    
-    @Test
-    fun `validateAndTokenize should does not throw exception for implicit multiplication before parentheses`() {
-        // Given
-        val expression = "3(1+2)"
-        
-        // When/Then
+        // When
         assertDoesNotThrow {
             MathExpressionValidator.validateAndTokenize(expression)
         }
+        // Then
+        assertEquals(7, tokens.size)
+        
+        assertEquals(TokenType.LPAREN, tokens[0].type)
+        assertEquals("(", tokens[0].value)
+        assertEquals(TokenType.NUMBER, tokens[1].type)
+        assertEquals("1", tokens[1].value)
+        assertEquals(TokenType.OPERATOR, tokens[2].type)
+        assertEquals("+", tokens[2].value)
+        assertEquals(TokenType.NUMBER, tokens[3].type)
+        assertEquals("2", tokens[3].value)
+        assertEquals(TokenType.RPAREN, tokens[4].type)
+        assertEquals(")", tokens[4].value)
+        assertEquals(TokenType.OPERATOR, tokens[5].type)
+        assertEquals("*", tokens[5].value)
+        assertEquals(TokenType.NUMBER, tokens[6].type)
+        assertEquals("3", tokens[6].value)
+        
+        val result = MathCalculator().calculate(expression)
+        assertEquals(9.0, result, 0.001) // (1 + 2) * 3 = 3 * 3 = 9
     }
+    
 }
