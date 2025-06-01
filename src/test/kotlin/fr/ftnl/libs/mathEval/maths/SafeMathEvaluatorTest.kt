@@ -5,7 +5,8 @@ import fr.ftnl.libs.mathEval.tokenizer.TokenType
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.assertThrows
-import java.util.concurrent.TimeoutException
+import kotlin.math.cos
+import kotlin.math.sin
 import kotlin.test.assertContains
 
 /**
@@ -189,7 +190,7 @@ class SafeMathEvaluatorTest {
         val result = evaluator.evaluateWithSafeguards(tokens)
 
         // Then
-        assertEquals(Math.sin(Math.cos(0.0)), result, delta)
+        assertEquals(sin(cos(0.0)), result, delta)
     }
 
     // Note: Testing timeout would require a way to create an infinite loop or very long calculation
