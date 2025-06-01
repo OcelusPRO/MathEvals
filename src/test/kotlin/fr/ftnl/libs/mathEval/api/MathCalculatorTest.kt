@@ -184,10 +184,12 @@ class MathCalculatorTest {
         // When
         val result1 = calculator.calculate("double(5)")
         val result2 = calculator.calculate("sin(toRadians(90))")
+        val result3 = calculator.calculate("double(sin(toRadians(90)))")
 
         // Then
         assertEquals(10.0, result1, delta)
         assertEquals(1.0, result2, delta)
+        assertEquals(2.0, result3, delta)
 
         // Verify function existence
         assertTrue(calculator.hasFunction("double"))

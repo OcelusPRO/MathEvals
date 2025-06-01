@@ -1,9 +1,6 @@
-package fr.ftnl.libs.mathEval.tokenizer
+package fr.ftnl.libs.mathEval.core.tokenizer
 
 import fr.ftnl.libs.mathEval.api.exceptions.SyntaxException
-import fr.ftnl.libs.mathEval.core.tokenizer.MathExpressionTokenizer
-import fr.ftnl.libs.mathEval.core.tokenizer.TokenType
-import fr.ftnl.libs.mathEval.core.tokenizer.TokenizationException
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.assertThrows
