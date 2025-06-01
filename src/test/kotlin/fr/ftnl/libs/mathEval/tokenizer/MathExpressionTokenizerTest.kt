@@ -3,6 +3,7 @@ package fr.ftnl.libs.mathEval.tokenizer
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.assertThrows
+import kotlin.test.assertContains
 
 class MathExpressionTokenizerTest {
 
@@ -159,6 +160,6 @@ class MathExpressionTokenizerTest {
 
         // Then
         assertEquals('@', exception.invalidCharacter)
-        assertTrue(exception.message!!.contains("Caractère invalide"))
+        assertContains(exception.message ?: "", "Invalid character '@'")
     }
 }
