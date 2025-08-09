@@ -1,0 +1,13 @@
+[versions]
+kotlin = "2.2.0"
+nexus = "2.0.0"
+dokka = "2.0.0"
+
+[libraries]
+# Dépendance pour l'API de KSP
+
+[plugins]
+# Déclaration des plugins Gradle que nous allons utiliser
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+nexus-publish = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "nexus" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
