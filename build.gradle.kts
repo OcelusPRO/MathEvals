@@ -1,17 +1,21 @@
+import io.github.gradlenexus.publishplugin.NexusPublishExtension
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("jvm") version "2.1.20"
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.nexus.publish)
+    alias(libs.plugins.dokka)
     `maven-publish`
     signing
 }
 
-group = "fr.ftnl.libs"
-version = "1.0.0"
-
 repositories {
     mavenCentral()
 }
+
+group = "fr.ftnl.tools"
+version = "1.0.0-SNAPSHOT"
 
 dependencies {
     testImplementation(kotlin("test"))
@@ -38,56 +42,89 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
     }
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("mavenJava") {
-            signing {
-                sign(configurations.archives.get())
-                sign(publishing.publications["mavenJava"])
-            }
-            from(components["java"])
-            pom {
-                name.set("MathEvals")
-                packaging = "jar"
+allprojects {
+    if (project.name == "test") return@allprojects
 
-                description.set("A Kotlin library for evaluating mathematical expressions with safety features.")
-                url.set("https://github.com/ocelus_ftnl/MathEvals")
-                licenses {
-                    license {
-                        name.set("GNU General Public License, version 2")
-                        url.set("https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html")
-                    }
-                }
-                developers {
-                    developer {
-                        id.set("ocelus_ftnl")
-                        name.set("Ocelus")
-                        email.set("contact@ftnl.fr")
-                    }
-                }
-                scm {
-                    connection.set("git@github.com:ocelus_ftnl/MathEvals.git")
-                    developerConnection.set("git@github.com:ocelus_ftnl/MathEvals.git")
-                    url.set("https://github.com/ocelus_ftnl/MathEvals")
-                }
+    plugins.withId("javaLibrary") {
+        // Tâche pour créer le JAR de la Javadoc (KDoc)
+        val javadocJar by tasks.registering(Jar::class) {
+            dependsOn(tasks.named("dokkaHtml"))
+            archiveClassifier.set("javadoc")
+            from(tasks.named("dokkaHtml").get().outputs)
+        }
+
+        extensions.configure<PublishingExtension> {
+            publications.named<MavenPublication>("mavenJava") {
+                artifact(javadocJar)
             }
         }
     }
 
-    repositories {
-        maven {
-            name = "myRepo"
-            val releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            val snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-            url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
-            val ossrhUsername: String by project
-            val ossrhPassword: String by project
 
-            credentials {
-                username = ossrhUsername
-                password = ossrhPassword
+    extensions.configure<SigningExtension> {
+        useGpgCmd()
+        sign(extensions.getByType<PublishingExtension>().publications)
+    }
+
+    extensions.configure<PublishingExtension> {
+        publications {
+            register<MavenPublication>("mavenJava") {
+                artifactId = "${rootProject.name}-${project.name}"
+
+                plugins.withId("java-library") {
+                    from(project.components["java"])
+                    val sourcesJar by project.tasks.registering(Jar::class) {
+                        archiveClassifier.set("sources")
+                        val sourceSets = project.extensions.getByType(JavaPluginExtension::class.java).sourceSets
+                        from(sourceSets["main"].allSource)
+                    }
+                    val javadocJar by project.tasks.registering(Jar::class) {
+                        archiveClassifier.set("javadoc")
+                        dependsOn(project.tasks.named("dokkaHtml", DokkaTask::class))
+                        from(project.tasks.named("dokkaHtml", DokkaTask::class).get().outputs)
+                    }
+                    artifact(sourcesJar)
+                    artifact(javadocJar)
+                }
+
+                plugins.withId("java-platform") {
+                    from(components["javaPlatform"])
+                }
+
+                pom {
+                    url.set("https://github.com/OcelusPRO/${rootProject.name}")
+                    licenses {
+                        license {
+                            name.set("The Apache License, Version 2.0")
+                            url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+                        }
+                    }
+                    developers {
+                        developer {
+                            id.set("oceluspro")
+                            name.set("ocelus_ftnl")
+                            email.set("contact@ftnl.fr")
+                        }
+                    }
+                    scm {
+                        connection.set("scm:git:git://github.com/oceluspro/${rootProject.name}.git")
+                        developerConnection.set("scm:git:ssh://github.com/oceluspro/${rootProject.name}.git")
+                        url.set("https://github.com/oceluspro/${rootProject.name}")
+                    }
+                }
             }
         }
     }
-
 }
+
+extensions.configure<NexusPublishExtension> {
+    repositories {
+        sonatype {
+            nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
+            username.set(System.getenv("OSSRH_USERNAME") ?: findProperty("ossrhUsername")?.toString())
+            password.set(System.getenv("OSSRH_PASSWORD") ?: findProperty("ossrhPassword")?.toString())
+        }
+    }
+}
+
