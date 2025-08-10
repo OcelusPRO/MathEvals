@@ -2,6 +2,8 @@
 
 A powerful Kotlin library for evaluating mathematical expressions dynamically at runtime.
 
+![Maven Central Version](https://img.shields.io/maven-central/v/fr.ftnl.tools/MathEvals?strategy=highestVersion&link=https%3A%2F%2Fcentral.sonatype.com%2Fartifact%2Ffr.ftnl.tools%2FMathEvals)
+
 ## Features
 
 - Parse and evaluate mathematical expressions from strings
