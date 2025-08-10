@@ -32,7 +32,7 @@ repositories {
 }
 
 group = "fr.ftnl.tools"
-version = "1.1.0"
+version = "1.1.1"
 
 dependencies {
     testImplementation(kotlin("test"))
@@ -86,8 +86,12 @@ publishing {
                 url.set("https://github.com/oceluspro/${rootProject.name}")
                 licenses {
                     license {
-                        name.set("The Apache License, Version 2.0")
-                        url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+                        name.set("Free License (GNU AGPLv3)")
+                        url.set("https://github.com/OcelusPRO/MathEvals/blob/master/LICENCES/agpl-3.0.md")
+                    }
+                    license {
+                        name.set("Commercial licence")
+                        url.set("https://github.com/OcelusPRO/MathEvals/blob/master/LICENCES/commercial.md")
                     }
                 }
                 developers {

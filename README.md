@@ -150,7 +150,7 @@ tokens.forEach { println("${it.type}: ${it.value}") }
 
 This project is distributed under a **dual-license model**:
 
-1.  **Free License (AGPLv3):** For personal, educational, or any project where you are willing to share your source code. You may use, modify, and distribute this software under the terms of the **GNU Affero General Public License v3**. For more information, please see the [AGPLv3 License](LICENCES/LICENSE_AGPLv3.md) file.
+1.  **Free License (GNU AGPLv3):** For personal, educational, or any project where you are willing to share your source code. You may use, modify, and distribute this software under the terms of the **GNU Affero General Public License v3**. For more information, please see the [AGPLv3 License](LICENCES/LICENSE_AGPLv3.md) file.
 
 2.  **Commercial License:** For companies and proprietary projects that do not wish to release their source code publicly. This license allows you to use the software in exchange for a recurring donation. The full terms and conditions, including financial contribution and attribution requirements, are detailed in the [Commercial License](LICENCES/LICENSE_COMMERCIAL.md) file.
 
