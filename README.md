@@ -27,7 +27,7 @@ repositories {
 }
 
 dependencies {
-    implementation("fr.ftnl.libs:math-evals:1.0.0")
+    implementation("fr.ftnl.tools:math-evals:1.0.0")
 }
 ```
 
@@ -35,7 +35,7 @@ dependencies {
 
 ```xml
 <dependency>
-    <groupId>fr.ftnl.libs</groupId>
+    <groupId>fr.ftnl.tools</groupId>
     <artifactId>math-evals</artifactId>
     <version>1.0.0</version>
 </dependency>
@@ -46,7 +46,7 @@ dependencies {
 ### Basic Usage
 
 ```kotlin
-import fr.ftnl.libs.mathEval.maths.MathCalculator
+import fr.ftnl.tools.mathEval.maths.MathCalculator
 
 fun main() {
     val calculator = MathCalculator()
@@ -89,8 +89,8 @@ fun main() {
 ### Error Handling
 
 ```kotlin
-import fr.ftnl.libs.mathEval.maths.MathCalculator
-import fr.ftnl.libs.mathEval.tokenizer.TokenizationException
+import fr.ftnl.tools.mathEval.maths.MathCalculator
+import fr.ftnl.tools.mathEval.tokenizer.TokenizationException
 
 fun main() {
     val calculator = MathCalculator()
@@ -143,6 +143,13 @@ val tokens = calculator.showTokens("2 * (3 + 4)")
 tokens.forEach { println("${it.type}: ${it.value}") }
 ```
 
-## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+# License
+
+This project is distributed under a **dual-license model**:
+
+1.  **Free License (AGPLv3):** For personal, educational, or any project where you are willing to share your source code. You may use, modify, and distribute this software under the terms of the **GNU Affero General Public License v3**. For more information, please see the [AGPLv3 License](LICENCES/LICENSE_AGPLv3.md) file.
+
+2.  **Commercial License:** For companies and proprietary projects that do not wish to release their source code publicly. This license allows you to use the software in exchange for a recurring donation. The full terms and conditions, including financial contribution and attribution requirements, are detailed in the [Commercial License](LICENCES/LICENSE_COMMERCIAL.md) file.
+
+We encourage you to choose the license that best suits your use case.
